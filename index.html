@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Бустики от Салюшина — рулетка">
 <title>Бустики от Салюшина 🎰</title>
 
 <style>
@@ -11,50 +10,30 @@
     box-sizing: border-box;
 }
 
-html,
 body {
     margin: 0;
-    padding: 0;
-    min-height: 100%;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #fff;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
     background:
-        radial-gradient(circle at 15% 15%, rgba(0,255,220,.13), transparent 30%),
-        radial-gradient(circle at 85% 75%, rgba(130,70,255,.16), transparent 35%),
+        radial-gradient(circle at 20% 10%, #16334a, transparent 30%),
+        radial-gradient(circle at 80% 80%, #32194d, transparent 35%),
         #070912;
-    overflow-x: hidden;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: .18;
-    background-image:
-        radial-gradient(circle, #fff 1px, transparent 1px);
-    background-size: 35px 35px;
 }
 
 header {
-    position: relative;
-    z-index: 2;
     text-align: center;
     padding: 30px 15px 10px;
 }
 
 .logo {
-    font-size: clamp(28px, 6vw, 52px);
+    font-size: clamp(28px, 6vw, 50px);
     font-weight: 900;
-    letter-spacing: 1px;
     background: linear-gradient(
         90deg,
         #00ffe1,
-        #6e7cff,
-        #d84cff
+        #6c75ff,
+        #ff4fd8
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -63,21 +42,16 @@ header {
 
 .subtitle {
     margin-top: 8px;
-    color: #aeb3c9;
-    font-size: 16px;
+    color: #aeb5ca;
 }
 
 .layout {
-    position: relative;
-    z-index: 2;
-
     width: min(1150px, 94%);
     margin: 25px auto 50px;
 
     display: grid;
     grid-template-columns: minmax(0, 1fr) 330px;
     gap: 30px;
-    align-items: start;
 }
 
 .game {
@@ -86,9 +60,9 @@ header {
     align-items: center;
 }
 
-/* ==========================================
-   CANVAS
-========================================== */
+/* ===============================
+   КОЛЕСО
+================================ */
 
 .wheel-box {
     position: relative;
@@ -96,27 +70,17 @@ header {
     aspect-ratio: 1;
 }
 
-#wheelCanvas {
-    display: block;
+#wheel {
     width: 100%;
     height: 100%;
-
-    border-radius: 50%;
-
-    filter:
-        drop-shadow(0 0 20px rgba(0,255,220,.18))
-        drop-shadow(0 25px 45px rgba(0,0,0,.5));
+    display: block;
 }
-
-/* ==========================================
-   УКАЗАТЕЛЬ
-========================================== */
 
 .pointer {
     position: absolute;
     z-index: 10;
 
-    top: -2px;
+    top: -3px;
     left: 50%;
 
     transform: translateX(-50%);
@@ -126,10 +90,10 @@ header {
 
     border-left: 24px solid transparent;
     border-right: 24px solid transparent;
-    border-top: 58px solid #fff;
+    border-top: 58px solid white;
 
     filter:
-        drop-shadow(0 3px 3px #000)
+        drop-shadow(0 3px 4px #000)
         drop-shadow(0 0 10px rgba(255,255,255,.7));
 }
 
@@ -138,38 +102,35 @@ header {
 
     position: absolute;
 
-    left: -10px;
+    left: -9px;
     top: -53px;
 
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 
     border-radius: 50%;
 
-    background: #ff3f66;
-
-    box-shadow:
-        0 0 10px #ff3f66;
+    background: #ff3e65;
 }
 
-/* ==========================================
+/* ===============================
    КНОПКА
-========================================== */
+================================ */
 
-.spin-button {
+#spinButton {
     width: min(440px, 90%);
+
     margin-top: 35px;
+    padding: 18px;
 
-    padding: 18px 25px;
-
-    border: none;
+    border: 0;
     border-radius: 16px;
 
     background:
         linear-gradient(
             90deg,
             #00ffe1,
-            #64ffd0
+            #63ffd0
         );
 
     color: #06100f;
@@ -180,81 +141,67 @@ header {
     cursor: pointer;
 
     box-shadow:
-        0 10px 35px rgba(0,255,220,.22);
+        0 10px 35px rgba(0,255,220,.25);
 
     transition: .2s;
 }
 
-.spin-button:hover {
+#spinButton:hover {
     transform: translateY(-3px) scale(1.02);
-
-    box-shadow:
-        0 15px 45px rgba(0,255,220,.4);
 }
 
-.spin-button:active {
+#spinButton:active {
     transform: scale(.98);
 }
 
-.spin-button:disabled {
+#spinButton:disabled {
     opacity: .55;
     cursor: not-allowed;
     transform: none;
 }
 
-/* ==========================================
+/* ===============================
    РЕЗУЛЬТАТ
-========================================== */
+================================ */
 
 .result {
     width: min(580px, 94%);
+
     margin-top: 22px;
-
     padding: 22px;
-
-    border-radius: 20px;
-
-    background: rgba(15,18,35,.9);
-
-    border: 1px solid rgba(255,255,255,.08);
 
     text-align: center;
 
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.25);
+    border-radius: 20px;
+
+    background: rgba(15,18,35,.92);
+    border: 1px solid rgba(255,255,255,.08);
 }
 
 .result-title {
     color: #858ba5;
-
     font-size: 13px;
     font-weight: 900;
-
     letter-spacing: 1px;
 }
 
 .result-name {
-    margin-top: 9px;
+    margin-top: 8px;
 
     font-size: clamp(23px, 5vw, 34px);
-
     font-weight: 900;
 }
 
 .result-description {
     margin-top: 8px;
-
-    color: #aeb4ca;
-
-    font-size: 15px;
+    color: #afb5ca;
 }
 
-.result-pop {
-    animation: resultPop .45s ease;
+.pop {
+    animation: pop .45s ease;
 }
 
-@keyframes resultPop {
-
+@keyframes pop {
     0% {
         transform: scale(.8);
         opacity: .2;
@@ -270,28 +217,21 @@ header {
     }
 }
 
-/* ==========================================
+/* ===============================
    ПАНЕЛЬ
-========================================== */
+================================ */
 
 .panel {
     padding: 22px;
 
     border-radius: 22px;
 
-    background: rgba(15,18,35,.9);
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.25);
+    background: rgba(15,18,35,.92);
+    border: 1px solid rgba(255,255,255,.08);
 }
 
 .panel h2 {
     margin: 0 0 15px;
-
-    font-size: 20px;
 }
 
 .stats {
@@ -309,8 +249,7 @@ header {
 
     border-radius: 11px;
 
-    background:
-        rgba(255,255,255,.045);
+    background: rgba(255,255,255,.045);
 }
 
 .stat-value {
@@ -325,13 +264,11 @@ header {
 
 .history-item {
     padding: 11px;
-
     margin-bottom: 7px;
 
     border-radius: 10px;
 
-    background:
-        rgba(255,255,255,.045);
+    background: rgba(255,255,255,.045);
 
     font-size: 14px;
 }
@@ -348,13 +285,11 @@ header {
     width: 100%;
 
     margin-top: 12px;
-
     padding: 11px;
 
     border-radius: 10px;
 
-    border:
-        1px solid rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.1);
 
     background: transparent;
 
@@ -364,22 +299,19 @@ header {
 }
 
 .small-button:hover {
-    background:
-        rgba(255,255,255,.05);
-
+    background: rgba(255,255,255,.05);
     color: white;
 }
 
-/* ==========================================
-   КОНФЕТТИ
-========================================== */
+/* ===============================
+   CONFETTI
+================================ */
 
 #confetti {
     position: fixed;
     inset: 0;
 
     pointer-events: none;
-
     z-index: 999;
 }
 
@@ -389,12 +321,10 @@ header {
     width: 8px;
     height: 14px;
 
-    animation:
-        confettiFall 2.5s linear forwards;
+    animation: fall 2.5s linear forwards;
 }
 
-@keyframes confettiFall {
-
+@keyframes fall {
     from {
         transform:
             translateY(-30px)
@@ -412,10 +342,6 @@ header {
     }
 }
 
-/* ==========================================
-   MOBILE
-========================================== */
-
 @media (max-width: 850px) {
 
     .layout {
@@ -430,31 +356,14 @@ header {
 
 @media (max-width: 520px) {
 
-    header {
-        padding-top: 22px;
-    }
-
-    .wheel-box {
-        width: 96vw;
-    }
-
     .pointer {
         border-left-width: 18px;
         border-right-width: 18px;
         border-top-width: 45px;
     }
 
-    .pointer::after {
-        width: 15px;
-        height: 15px;
-
-        left: -7.5px;
-        top: -41px;
-    }
-
-    .spin-button {
+    #spinButton {
         font-size: 17px;
-        padding: 16px;
     }
 }
 </style>
@@ -469,7 +378,7 @@ header {
     </div>
 
     <div class="subtitle">
-        Испытай удачу — крути рулетку сколько хочешь
+        Крути рулетку сколько хочешь
     </div>
 
 </header>
@@ -477,126 +386,124 @@ header {
 
 <div class="layout">
 
-<section class="game">
+    <section class="game">
 
-    <div class="wheel-box">
+        <div class="wheel-box">
 
-        <div class="pointer"></div>
+            <div class="pointer"></div>
 
-        <canvas id="wheelCanvas"></canvas>
+            <canvas id="wheel"></canvas>
 
-    </div>
-
-
-    <button
-        id="spinButton"
-        class="spin-button"
-        onclick="spinWheel()">
-
-        КРУТИТЬ РУЛЕТКУ
-
-    </button>
-
-
-    <div id="result" class="result">
-
-        <div class="result-title">
-            РЕЗУЛЬТАТ
         </div>
 
-        <div class="result-name">
-            🎰 Крути рулетку!
+
+        <button
+            id="spinButton"
+            onclick="spinWheel()">
+
+            КРУТИТЬ РУЛЕТКУ
+
+        </button>
+
+
+        <div
+            class="result"
+            id="result">
+
+            <div class="result-title">
+                РЕЗУЛЬТАТ
+            </div>
+
+            <div class="result-name">
+                🎰 Крути рулетку!
+            </div>
+
+            <div class="result-description">
+                Удачи!
+            </div>
+
         </div>
 
-        <div class="result-description">
-            Удачи!
+    </section>
+
+
+    <aside class="panel">
+
+        <h2>📊 Статистика</h2>
+
+        <div class="stats">
+
+            <div class="stat">
+                <span>Всего вращений</span>
+                <span
+                    class="stat-value"
+                    id="total">
+                    0
+                </span>
+            </div>
+
+            <div class="stat">
+                <span>❌ Не возвращаю</span>
+                <span
+                    class="stat-value"
+                    id="noReturn">
+                    0
+                </span>
+            </div>
+
+            <div class="stat">
+                <span>↩️ Возвращаю</span>
+                <span
+                    class="stat-value"
+                    id="returns">
+                    0
+                </span>
+            </div>
+
+            <div class="stat">
+                <span>🎁 Выигрышей</span>
+                <span
+                    class="stat-value"
+                    id="wins">
+                    0
+                </span>
+            </div>
+
         </div>
 
-    </div>
 
-</section>
+        <h2>🕘 История</h2>
 
+        <div
+            class="history"
+            id="history">
 
-<aside class="panel">
+            <div class="empty">
+                Пока нет вращений
+            </div>
 
-    <h2>📊 Статистика</h2>
-
-    <div class="stats">
-
-        <div class="stat">
-            <span>Всего вращений</span>
-            <span
-                class="stat-value"
-                id="total">
-                0
-            </span>
         </div>
 
-        <div class="stat">
-            <span>❌ Не возвращаю</span>
-            <span
-                class="stat-value"
-                id="noReturn">
-                0
-            </span>
-        </div>
 
-        <div class="stat">
-            <span>↩️ Возвращаю</span>
-            <span
-                class="stat-value"
-                id="returns">
-                0
-            </span>
-        </div>
+        <button
+            class="small-button"
+            id="soundButton"
+            onclick="toggleSound()">
 
-        <div class="stat">
-            <span>🎁 Выигрышей</span>
-            <span
-                class="stat-value"
-                id="wins">
-                0
-            </span>
-        </div>
+            🔊 Звук: ВКЛ
 
-    </div>
+        </button>
 
 
-    <h2>
-        🕘 Последние вращения
-    </h2>
+        <button
+            class="small-button"
+            onclick="resetStats()">
 
+            🗑️ Сбросить статистику
 
-    <div
-        id="history"
-        class="history">
+        </button>
 
-        <div class="empty">
-            Пока нет вращений
-        </div>
-
-    </div>
-
-
-    <button
-        class="small-button"
-        id="soundButton"
-        onclick="toggleSound()">
-
-        🔊 Звук: ВКЛ
-
-    </button>
-
-
-    <button
-        class="small-button"
-        onclick="resetStats()">
-
-        🗑️ Сбросить статистику
-
-    </button>
-
-</aside>
+    </aside>
 
 </div>
 
@@ -606,23 +513,19 @@ header {
 
 <script>
 
-/* =====================================================
+/* ==================================================
    НАСТРОЙКИ
-===================================================== */
+================================================== */
 
 const canvas =
-    document.getElementById("wheelCanvas");
+    document.getElementById("wheel");
 
 const ctx =
     canvas.getContext("2d");
 
 
 /*
-    12 секторов.
-
-    Текст рисуется Canvas-ом отдельно.
-    Поэтому он НЕ поворачивается вместе
-    с геометрией сектора.
+    Порядок секторов на колесе.
 */
 
 const sectors = [
@@ -732,19 +635,17 @@ const descriptions = {
         "ОГО! Редкий приз 🔥",
 
     "СУПЕР ПРИЗ":
-        "ДЖЕКПОТ! Супер приз 👑"
+        "ДЖЕКПОТ! 👑"
 
 };
 
 
-/* =====================================================
-   ПЕРЕМЕННЫЕ
-===================================================== */
+/* ==================================================
+   СОСТОЯНИЕ
+================================================== */
 
-let currentRotation = 0;
-
+let rotation = 0;
 let isSpinning = false;
-
 let soundEnabled = true;
 
 let stats = {
@@ -757,9 +658,9 @@ let stats = {
 let history = [];
 
 
-/* =====================================================
-   CANVAS RESIZE
-===================================================== */
+/* ==================================================
+   CANVAS
+================================================== */
 
 function resizeCanvas() {
 
@@ -794,450 +695,420 @@ window.addEventListener(
 );
 
 
-/* =====================================================
-   DRAW WHEEL
-===================================================== */
+/* ==================================================
+   РИСОВАНИЕ
+================================================== */
 
 function drawWheel() {
 
-    const width =
+    const w =
         canvas.clientWidth;
 
-    const height =
+    const h =
         canvas.clientHeight;
 
-    const size =
-        Math.min(width, height);
+    const cx =
+        w / 2;
 
-    const centerX =
-        width / 2;
-
-    const centerY =
-        height / 2;
+    const cy =
+        h / 2;
 
     const radius =
-        size / 2 - 12;
+        Math.min(w, h) / 2 - 10;
 
 
     ctx.clearRect(
         0,
         0,
-        width,
-        height
+        w,
+        h
     );
 
 
     /*
-        Внешнее свечение
+        Внешнее свечение.
     */
 
     ctx.save();
 
-    ctx.shadowColor =
-        "rgba(0,255,220,.3)";
-
-    ctx.shadowBlur = 30;
-
-
-    /*
-        Белая внешняя рамка
-    */
-
     ctx.beginPath();
 
     ctx.arc(
-        centerX,
-        centerY,
+        cx,
+        cy,
         radius + 5,
         0,
         Math.PI * 2
     );
 
     ctx.fillStyle =
-        "#ffffff";
+        "#fff";
+
+    ctx.shadowColor =
+        "rgba(0,255,220,.35)";
+
+    ctx.shadowBlur = 25;
 
     ctx.fill();
 
     ctx.restore();
 
 
-    /*
-        Начальный угол.
-
-        -90 градусов = верх.
-
-        Сектор 0 будет начинаться
-        на -105 градусов и заканчиваться
-        на -75 градусов.
-
-        Поэтому его центр находится
-        ровно сверху.
-    */
-
-    const startOffset =
-        -Math.PI / 2 -
-        (Math.PI * 2 / sectors.length) / 2;
-
-
-    const sectorAngle =
+    const slice =
         Math.PI * 2 / sectors.length;
 
 
     /*
-        Рисуем сектора
+        Сектор №0 находится сверху.
     */
 
-    for (
-        let i = 0;
-        i < sectors.length;
-        i++
-    ) {
-
-        const start =
-            startOffset +
-            i * sectorAngle +
-            currentRotation;
-
-        const end =
-            start +
-            sectorAngle;
+    const base =
+        -Math.PI / 2 -
+        slice / 2;
 
 
-        /*
-            Цвета
-        */
+    /* -------------------------------
+       СЕКТОРА
+    -------------------------------- */
 
-        const item =
-            sectors[i];
+    sectors.forEach(
+        (item, index) => {
 
-        let color;
+            const start =
+                base +
+                index * slice +
+                rotation;
 
-        if (item.type === "lose") {
-            color =
-                i % 2 === 0
-                    ? "#252a45"
-                    : "#1b2038";
+            const end =
+                start + slice;
+
+
+            let color;
+
+
+            if (
+                item.type === "lose"
+            ) {
+
+                color =
+                    index % 2 === 0
+                        ? "#252b47"
+                        : "#171d36";
+
+            }
+
+            else if (
+                item.type === "return"
+            ) {
+
+                color =
+                    index % 2 === 0
+                        ? "#2d3855"
+                        : "#202b46";
+
+            }
+
+            else if (
+                item.type === "win"
+            ) {
+
+                color =
+                    index % 2 === 0
+                        ? "#235050"
+                        : "#1c3e40";
+
+            }
+
+            else if (
+                item.type === "rare"
+            ) {
+
+                color =
+                    "#59401f";
+
+            }
+
+            else {
+
+                color =
+                    "#5b2449";
+            }
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                cx,
+                cy
+            );
+
+            ctx.arc(
+                cx,
+                cy,
+                radius,
+                start,
+                end
+            );
+
+            ctx.closePath();
+
+            ctx.fillStyle =
+                color;
+
+            ctx.fill();
+
+
+            /*
+                Линия сектора.
+            */
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                cx,
+                cy
+            );
+
+            ctx.lineTo(
+                cx +
+                Math.cos(start) * radius,
+
+                cy +
+                Math.sin(start) * radius
+            );
+
+            ctx.strokeStyle =
+                "rgba(255,255,255,.28)";
+
+            ctx.lineWidth = 2;
+
+            ctx.stroke();
         }
-
-        else if (item.type === "return") {
-            color =
-                i % 2 === 0
-                    ? "#27314c"
-                    : "#1d263f";
-        }
-
-        else if (item.type === "win") {
-            color =
-                i % 2 === 0
-                    ? "#244f50"
-                    : "#1c3e40";
-        }
-
-        else if (item.type === "rare") {
-            color =
-                "#533c24";
-        }
-
-        else {
-            color =
-                "#542546";
-        }
+    );
 
 
-        /*
-            Сектор
-        */
+    /* -------------------------------
+       ТЕКСТ
+    -------------------------------- */
 
-        ctx.beginPath();
+    sectors.forEach(
+        (item, index) => {
 
-        ctx.moveTo(
-            centerX,
-            centerY
-        );
-
-        ctx.arc(
-            centerX,
-            centerY,
-            radius,
-            start,
-            end
-        );
-
-        ctx.closePath();
-
-        ctx.fillStyle =
-            color;
-
-        ctx.fill();
+            const angle =
+                base +
+                index * slice +
+                slice / 2 +
+                rotation;
 
 
-        /*
-            Белая граница между секторами
-        */
+            /*
+                Расстояние от центра.
 
-        ctx.beginPath();
+                Именно здесь располагается текст.
+            */
 
-        ctx.moveTo(
-            centerX,
-            centerY
-        );
-
-        ctx.lineTo(
-            centerX +
-            Math.cos(start) * radius,
-            centerY +
-            Math.sin(start) * radius
-        );
-
-        ctx.strokeStyle =
-            "rgba(255,255,255,.28)";
-
-        ctx.lineWidth = 2;
-
-        ctx.stroke();
-    }
+            const textRadius =
+                radius * .66;
 
 
-    /*
-        Рисуем ТЕКСТ.
-
-        Это самое главное.
-
-        Текст располагается по радиусу,
-        но сам текст НЕ поворачивается.
-
-        Поэтому он всегда читается нормально.
-    */
-
-    for (
-        let i = 0;
-        i < sectors.length;
-        i++
-    ) {
-
-        const item =
-            sectors[i];
+            const x =
+                cx +
+                Math.cos(angle) *
+                textRadius;
 
 
-        /*
-            Центр сектора
-        */
-
-        const angle =
-            startOffset +
-            i * sectorAngle +
-            sectorAngle / 2 +
-            currentRotation;
+            const y =
+                cy +
+                Math.sin(angle) *
+                textRadius;
 
 
-        /*
-            Положение текста.
-
-            Немного ближе к внешнему краю,
-            но достаточно далеко от границ.
-        */
-
-        const textRadius =
-            radius * 0.66;
+            ctx.save();
 
 
-        const x =
-            centerX +
-            Math.cos(angle) *
-            textRadius;
-
-
-        const y =
-            centerY +
-            Math.sin(angle) *
-            textRadius;
-
-
-        /*
-            Текст всегда горизонтальный.
-        */
-
-        ctx.save();
-
-        ctx.translate(
-            x,
-            y
-        );
-
-        /*
-            НЕ поворачиваем canvas.
-        */
-
-        ctx.textAlign =
-            "center";
-
-        ctx.textBaseline =
-            "middle";
-
-
-        /*
-            Размер шрифта зависит
-            от размера колеса.
-        */
-
-        const fontSize =
-            Math.max(
-                11,
-                Math.min(
-                    18,
-                    radius * 0.07
-                )
+            ctx.translate(
+                x,
+                y
             );
 
 
-        ctx.font =
-            `900 ${fontSize}px Arial, Helvetica, sans-serif`;
+            /*
+                ВАЖНО:
+
+                Никакого rotate().
+
+                Текст всегда горизонтальный.
+            */
+
+            ctx.textAlign =
+                "center";
+
+            ctx.textBaseline =
+                "middle";
 
 
-        /*
-            Тень для читаемости
-        */
-
-        ctx.shadowColor =
-            "rgba(0,0,0,.95)";
-
-        ctx.shadowBlur = 5;
-
-        ctx.shadowOffsetX = 0;
-
-        ctx.shadowOffsetY = 2;
+            const fontSize =
+                Math.max(
+                    10,
+                    Math.min(
+                        17,
+                        radius * .065
+                    )
+                );
 
 
-        /*
-            Цвет текста
-        */
+            /*
+                Тень.
+            */
 
-        if (
-            item.type === "jackpot"
-        ) {
+            ctx.shadowColor =
+                "rgba(0,0,0,.95)";
 
-            ctx.fillStyle =
-                "#ffe77a";
+            ctx.shadowBlur = 5;
 
-        } else if (
-            item.type === "rare"
-        ) {
+            ctx.shadowOffsetY = 2;
 
-            ctx.fillStyle =
-                "#ffd28a";
 
-        } else if (
-            item.type === "win"
-        ) {
+            if (
+                item.type === "jackpot"
+            ) {
 
-            ctx.fillStyle =
-                "#aaffee";
+                ctx.fillStyle =
+                    "#ffe36e";
 
-        } else {
+            }
 
-            ctx.fillStyle =
-                "#ffffff";
+            else if (
+                item.type === "rare"
+            ) {
+
+                ctx.fillStyle =
+                    "#ffd18a";
+
+            }
+
+            else if (
+                item.type === "win"
+            ) {
+
+                ctx.fillStyle =
+                    "#9effec";
+
+            }
+
+            else {
+
+                ctx.fillStyle =
+                    "#ffffff";
+            }
+
+
+            /*
+                Иконка.
+            */
+
+            ctx.font =
+                `900 ${fontSize * .85}px Arial`;
+
+            ctx.fillText(
+                item.icon,
+                0,
+                -fontSize * 1.5
+            );
+
+
+            /*
+                Первая строка.
+            */
+
+            ctx.font =
+                `900 ${fontSize}px Arial`;
+
+            ctx.fillText(
+                item.lines[0],
+                0,
+                0
+            );
+
+
+            /*
+                Вторая строка.
+            */
+
+            ctx.fillText(
+                item.lines[1],
+                0,
+                fontSize * 1.25
+            );
+
+
+            ctx.restore();
         }
+    );
 
 
-        /*
-            Значок
-        */
-
-        ctx.font =
-            `900 ${fontSize * .85}px Arial`;
-
-        ctx.fillText(
-            item.icon,
-            0,
-            -fontSize * 1.45
-        );
-
-
-        /*
-            Первая строка
-        */
-
-        ctx.font =
-            `900 ${fontSize}px Arial, Helvetica, sans-serif`;
-
-        ctx.fillText(
-            item.lines[0],
-            0,
-            0
-        );
-
-
-        /*
-            Вторая строка
-        */
-
-        ctx.fillText(
-            item.lines[1],
-            0,
-            fontSize * 1.25
-        );
-
-
-        ctx.restore();
-    }
-
-
-    /*
-        Центральный круг.
-    */
+    /* -------------------------------
+       ЦЕНТР
+    -------------------------------- */
 
     ctx.beginPath();
 
     ctx.arc(
-        centerX,
-        centerY,
-        radius * 0.19,
+        cx,
+        cy,
+        radius * .19,
         0,
         Math.PI * 2
     );
 
-    const centerGradient =
+
+    const gradient =
         ctx.createLinearGradient(
-            centerX - 50,
-            centerY - 50,
-            centerX + 50,
-            centerY + 50
+            cx - 50,
+            cy - 50,
+            cx + 50,
+            cy + 50
         );
 
-    centerGradient.addColorStop(
+
+    gradient.addColorStop(
         0,
         "#00ffe1"
     );
 
-    centerGradient.addColorStop(
+    gradient.addColorStop(
         1,
-        "#7054ff"
+        "#7255ff"
     );
 
+
     ctx.fillStyle =
-        centerGradient;
+        gradient;
 
     ctx.fill();
 
 
     ctx.strokeStyle =
-        "#ffffff";
+        "#fff";
 
     ctx.lineWidth = 6;
 
     ctx.stroke();
 
 
-    /*
-        Центральная надпись
-    */
+    ctx.shadowColor =
+        "rgba(0,0,0,.6)";
+
+    ctx.shadowBlur = 5;
 
     ctx.fillStyle =
-        "#ffffff";
+        "#fff";
 
     ctx.font =
-        `900 ${Math.max(16, radius * .08)}px Arial`;
+        `900 ${Math.max(
+            18,
+            radius * .08
+        )}px Arial`;
 
     ctx.textAlign =
         "center";
@@ -1245,34 +1116,29 @@ function drawWheel() {
     ctx.textBaseline =
         "middle";
 
-    ctx.shadowColor =
-        "rgba(0,0,0,.5)";
-
-    ctx.shadowBlur = 5;
-
     ctx.fillText(
         "🎰",
-        centerX,
-        centerY
+        cx,
+        cy
     );
 
 
     /*
-        Внешняя рамка
+        Внешняя рамка.
     */
 
     ctx.beginPath();
 
     ctx.arc(
-        centerX,
-        centerY,
+        cx,
+        cy,
         radius,
         0,
         Math.PI * 2
     );
 
     ctx.strokeStyle =
-        "rgba(255,255,255,.9)";
+        "#fff";
 
     ctx.lineWidth = 4;
 
@@ -1280,9 +1146,9 @@ function drawWheel() {
 }
 
 
-/* =====================================================
-   ВЕРОЯТНОСТИ
-===================================================== */
+/* ==================================================
+   ВЫБОР РЕЗУЛЬТАТА
+================================================== */
 
 function getRandomResult() {
 
@@ -1291,7 +1157,8 @@ function getRandomResult() {
 
 
     /*
-        55%
+        Чаще всего:
+        НЕ ВОЗВРАЩАЮ
     */
 
     if (random < 55) {
@@ -1301,7 +1168,8 @@ function getRandomResult() {
 
 
     /*
-        40%
+        Второй частый результат:
+        ВОЗВРАЩАЮ БЕЗ ПРИЗА
     */
 
     if (random < 95) {
@@ -1310,19 +1178,11 @@ function getRandomResult() {
     }
 
 
-    /*
-        3%
-    */
-
     if (random < 98) {
 
         return "МАЛЕНЬКИЙ ВЫИГРЫШ";
     }
 
-
-    /*
-        1.5%
-    */
 
     if (random < 99.5) {
 
@@ -1330,59 +1190,50 @@ function getRandomResult() {
     }
 
 
-    /*
-        0.45%
-    */
-
     if (random < 99.95) {
 
         return "РЕДКИЙ ПРИЗ";
     }
 
 
-    /*
-        0.05%
-    */
-
     return "СУПЕР ПРИЗ";
 }
 
 
-/* =====================================================
-   НАЙТИ СЕКТОР
-===================================================== */
+/* ==================================================
+   ПОИСК СЕКТОРА
+================================================== */
 
-function getSectorForResult(result) {
+function findSector(result) {
 
-    const available = [];
+    const indexes = [];
 
-    for (
-        let i = 0;
-        i < sectors.length;
-        i++
-    ) {
 
-        if (
-            sectors[i].name === result
-        ) {
+    sectors.forEach(
+        (sector, index) => {
 
-            available.push(i);
+            if (
+                sector.name === result
+            ) {
+
+                indexes.push(index);
+            }
         }
-    }
+    );
 
 
-    return available[
+    return indexes[
         Math.floor(
             Math.random() *
-            available.length
+            indexes.length
         )
     ];
 }
 
 
-/* =====================================================
-   ВРАЩЕНИЕ
-===================================================== */
+/* ==================================================
+   КРУТКА
+================================================== */
 
 function spinWheel() {
 
@@ -1403,11 +1254,11 @@ function spinWheel() {
     button.disabled = true;
 
     button.textContent =
-        "ВРАЩЕНИЕ...";
+        "🎰 КРУТИТСЯ...";
 
 
     /*
-        Сначала определяем результат.
+        Получаем результат.
     */
 
     const result =
@@ -1415,51 +1266,54 @@ function spinWheel() {
 
 
     /*
-        Потом выбираем конкретный
-        сектор с этим результатом.
+        Получаем сектор,
+        который соответствует результату.
     */
 
     const sectorIndex =
-        getSectorForResult(
-            result
-        );
+        findSector(result);
 
 
-    /*
-        Размер одного сектора.
-    */
-
-    const sectorSize =
+    const slice =
         360 / sectors.length;
 
 
     /*
-        Центр выбранного сектора.
-
-        Сектор 0 находится сверху.
+        Текущий угол.
     */
 
-    const targetAngle =
-        sectorIndex *
-        sectorSize;
+    const startRotation =
+        rotation;
 
 
     /*
-        Текущий угол нормализуем.
+        Угол, при котором центр
+        выбранного сектора окажется
+        точно под указателем.
     */
 
-    const current =
-        ((currentRotation % 360) + 360) % 360;
+    const currentDegrees =
+        rotation * 180 / Math.PI;
+
+
+    const normalized =
+        (
+            currentDegrees % 360 +
+            360
+        ) % 360;
 
 
     /*
-        Нужно повернуть колесо так,
-        чтобы выбранный сектор оказался
-        точно под указателем сверху.
+        Центр сектора относительно верха.
     */
+
+    const targetDegrees =
+        sectorIndex * slice;
+
 
     let difference =
-        -targetAngle - current;
+        -targetDegrees -
+        normalized;
 
 
     while (
@@ -1471,35 +1325,32 @@ function spinWheel() {
 
 
     /*
-        Дополнительные обороты.
+        6-8 полных оборотов.
     */
 
     const extraSpins =
-        5 +
+        6 +
         Math.floor(
             Math.random() * 3
         );
 
 
-    const finalRotation =
-        currentRotation +
-        extraSpins * 360 +
-        difference;
-
-
-    currentRotation =
-        finalRotation;
+    const targetRotation =
+        startRotation +
+        (
+            extraSpins * 360 +
+            difference
+        ) *
+        Math.PI / 180;
 
 
     /*
         Запускаем анимацию.
-
-        Canvas каждый кадр будет
-        перерисовываться с новым углом.
     */
 
-    animateWheel(
-        finalRotation,
+    animateRotation(
+        startRotation,
+        targetRotation,
         5800,
         result
     );
@@ -1509,54 +1360,22 @@ function spinWheel() {
 }
 
 
-/* =====================================================
-   CANVAS ANIMATION
-===================================================== */
+/* ==================================================
+   АНИМАЦИЯ — ИСПРАВЛЕННАЯ
+================================================== */
 
-function animateWheel(
-    targetRotation,
+function animateRotation(
+    start,
+    target,
     duration,
     result
 ) {
-
-    const startRotation =
-        currentRotation;
-
-
-    /*
-        Нам нужно анимировать
-        от старого угла к новому.
-    */
-
-    /*
-        Исправляем:
-
-        currentRotation уже содержит target.
-
-        Поэтому вычисляем начальное
-        положение через разницу.
-    */
-
-    const difference =
-        targetRotation -
-        startRotation;
-
-
-    /*
-        В реальности стартовый угол
-        должен быть target - difference.
-    */
-
-    const start =
-        targetRotation -
-        difference;
-
 
     const startTime =
         performance.now();
 
 
-    function frame(now) {
+    function animate(now) {
 
         const elapsed =
             now - startTime;
@@ -1566,13 +1385,19 @@ function animateWheel(
             elapsed / duration;
 
 
-        if (progress > 1) {
+        if (
+            progress >= 1
+        ) {
+
             progress = 1;
         }
 
 
         /*
-            Очень плавное замедление.
+            Плавное замедление.
+
+            В начале быстро,
+            в конце медленно.
         */
 
         const eased =
@@ -1584,71 +1409,57 @@ function animateWheel(
 
 
         /*
-            Текущий угол.
+            ВОТ ЗДЕСЬ реально
+            меняется угол Canvas.
         */
 
-        currentRotation =
+        rotation =
             start +
-            difference * eased;
+            (
+                target - start
+            ) *
+            eased;
 
 
         drawWheel();
 
 
-        if (progress < 1) {
+        if (
+            progress < 1
+        ) {
 
             requestAnimationFrame(
-                frame
+                animate
             );
 
         } else {
 
             /*
-                Гарантируем абсолютно
-                точный финальный угол.
+                Точное конечное положение.
             */
 
-            currentRotation =
-                targetRotation;
+            rotation =
+                target;
 
             drawWheel();
 
 
-            setTimeout(() => {
-
-                finishSpin(result);
-
-            }, 100);
+            finishSpin(
+                result
+            );
         }
     }
 
 
-    /*
-        Здесь нужно начать
-        с предыдущего положения.
-
-        Поэтому временно сохраняем
-        старое значение.
-    */
-
-    const oldRotation =
-        targetRotation -
-        difference;
-
-
-    currentRotation =
-        oldRotation;
-
-    drawWheel();
-
-
-    requestAnimationFrame(frame);
+    requestAnimationFrame(
+        animate
+    );
 }
 
 
-/* =====================================================
+/* ==================================================
    ЗАВЕРШЕНИЕ
-===================================================== */
+================================================== */
 
 function finishSpin(result) {
 
@@ -1661,20 +1472,21 @@ function finishSpin(result) {
     saveData();
 
 
-    const type =
+    const sector =
         sectors.find(
-            item => item.name === result
-        ).type;
+            item =>
+                item.name === result
+        );
 
 
     if (
-        type === "win" ||
-        type === "rare" ||
-        type === "jackpot"
+        sector.type === "win" ||
+        sector.type === "rare" ||
+        sector.type === "jackpot"
     ) {
 
         createConfetti(
-            type === "jackpot"
+            sector.type === "jackpot"
                 ? 120
                 : 50
         );
@@ -1699,46 +1511,46 @@ function finishSpin(result) {
 }
 
 
-/* =====================================================
+/* ==================================================
    РЕЗУЛЬТАТ
-===================================================== */
+================================================== */
 
 function showResult(result) {
 
-    const item =
+    const sector =
         sectors.find(
-            sector =>
-                sector.name === result
+            item =>
+                item.name === result
         );
 
 
-    const box =
+    const resultBox =
         document.getElementById(
             "result"
         );
 
 
-    box.classList.remove(
-        "result-pop"
+    resultBox.classList.remove(
+        "pop"
     );
 
 
-    void box.offsetWidth;
+    void resultBox.offsetWidth;
 
 
-    box.classList.add(
-        "result-pop"
+    resultBox.classList.add(
+        "pop"
     );
 
 
-    box.innerHTML = `
+    resultBox.innerHTML = `
 
         <div class="result-title">
             ТЕБЕ ВЫПАЛО
         </div>
 
         <div class="result-name">
-            ${item.icon}
+            ${sector.icon}
             ${result}
         </div>
 
@@ -1750,9 +1562,9 @@ function showResult(result) {
 }
 
 
-/* =====================================================
+/* ==================================================
    СТАТИСТИКА
-===================================================== */
+================================================== */
 
 function updateStats(result) {
 
@@ -1808,9 +1620,9 @@ function renderStats() {
 }
 
 
-/* =====================================================
+/* ==================================================
    ИСТОРИЯ
-===================================================== */
+================================================== */
 
 function addHistory(result) {
 
@@ -1856,36 +1668,38 @@ function renderHistory() {
     history.forEach(
         (result, index) => {
 
-            const item =
+            const sector =
                 sectors.find(
-                    sector =>
-                        sector.name === result
+                    item =>
+                        item.name === result
                 );
 
 
-            const div =
+            const element =
                 document.createElement(
                     "div"
                 );
 
 
-            div.className =
+            element.className =
                 "history-item";
 
 
-            div.textContent =
-                `${index + 1}. ${item.icon} ${result}`;
+            element.textContent =
+                `${index + 1}. ${sector.icon} ${result}`;
 
 
-            box.appendChild(div);
+            box.appendChild(
+                element
+            );
         }
     );
 }
 
 
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
+/* ==================================================
+   СОХРАНЕНИЕ
+================================================== */
 
 function saveData() {
 
@@ -1948,7 +1762,9 @@ function loadData() {
         }
 
 
-        if (savedSound !== null) {
+        if (
+            savedSound !== null
+        ) {
 
             soundEnabled =
                 JSON.parse(
@@ -1958,10 +1774,7 @@ function loadData() {
 
     } catch (error) {
 
-        console.log(
-            "Ошибка загрузки",
-            error
-        );
+        console.error(error);
     }
 
 
@@ -1973,19 +1786,18 @@ function loadData() {
 }
 
 
-/* =====================================================
+/* ==================================================
    СБРОС
-===================================================== */
+================================================== */
 
 function resetStats() {
 
-    const answer =
-        confirm(
-            "Точно сбросить статистику?"
-        );
+    if (
+        !confirm(
+            "Сбросить статистику?"
+        )
+    ) {
 
-
-    if (!answer) {
         return;
     }
 
@@ -2017,14 +1829,14 @@ function resetStats() {
 }
 
 
-/* =====================================================
+/* ==================================================
    ЗВУК
-===================================================== */
+================================================== */
 
 let audioContext = null;
 
 
-function getAudioContext() {
+function getAudio() {
 
     if (!audioContext) {
 
@@ -2054,7 +1866,7 @@ function tone(
     try {
 
         const audio =
-            getAudioContext();
+            getAudio();
 
 
         const oscillator =
@@ -2101,7 +1913,7 @@ function tone(
             duration
         );
 
-    } catch (error) {}
+    } catch (e) {}
 }
 
 
@@ -2116,28 +1928,32 @@ function playSpinSound() {
 
 
     const interval =
-        setInterval(() => {
+        setInterval(
+            () => {
 
-            if (!isSpinning) {
+                if (!isSpinning) {
 
-                clearInterval(
-                    interval
+                    clearInterval(
+                        interval
+                    );
+
+                    return;
+                }
+
+
+                tone(
+                    180 +
+                    ticks * 5,
+                    .04,
+                    .025
                 );
 
-                return;
-            }
 
+                ticks++;
 
-            tone(
-                180 + ticks * 6,
-                .045,
-                .025
-            );
-
-
-            ticks++;
-
-        }, 130);
+            },
+            130
+        );
 }
 
 
@@ -2155,26 +1971,24 @@ function playWinSound() {
     );
 
 
-    setTimeout(() => {
-
-        tone(
+    setTimeout(
+        () => tone(
             659,
             .12,
             .05
-        );
+        ),
+        130
+    );
 
-    }, 130);
 
-
-    setTimeout(() => {
-
-        tone(
+    setTimeout(
+        () => tone(
             784,
             .25,
             .06
-        );
-
-    }, 260);
+        ),
+        260
+    );
 }
 
 
@@ -2192,22 +2006,18 @@ function toggleSound() {
 
 function updateSoundButton() {
 
-    const button =
-        document.getElementById(
-            "soundButton"
-        );
-
-
-    button.textContent =
+    document.getElementById(
+        "soundButton"
+    ).textContent =
         soundEnabled
             ? "🔊 Звук: ВКЛ"
             : "🔇 Звук: ВЫКЛ";
 }
 
 
-/* =====================================================
-   CONFETTI
-===================================================== */
+/* ==================================================
+   КОНФЕТТИ
+================================================== */
 
 function createConfetti(amount) {
 
@@ -2234,8 +2044,7 @@ function createConfetti(amount) {
 
 
         piece.style.left =
-            Math.random() *
-            100 +
+            Math.random() * 100 +
             "vw";
 
 
@@ -2258,18 +2067,17 @@ function createConfetti(amount) {
         );
 
 
-        setTimeout(() => {
-
-            piece.remove();
-
-        }, 4000);
+        setTimeout(
+            () => piece.remove(),
+            4000
+        );
     }
 }
 
 
-/* =====================================================
-   ПЕРВЫЙ ЗАПУСК
-===================================================== */
+/* ==================================================
+   ЗАПУСК
+================================================== */
 
 loadData();
 
