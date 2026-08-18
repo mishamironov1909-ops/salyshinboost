@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бустики от Салюшина</title>
+
+<style>
+body {
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 30px;
+    color: #00ffcc;
+}
+
+.container {
+    margin-top: 40px;
+}
+
+.wheel {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    margin: auto;
+    border: 8px solid white;
+    background: conic-gradient(
+        #555 0deg 162deg,
+        #333 162deg 288deg,
+        #00aa55 288deg 331deg,
+        #0099ff 331deg 352deg,
+        #ffcc00 352deg 358deg,
+        #ff0000 358deg 360deg
+    );
+    transition: transform 5s cubic-bezier(.17,.67,.12,.99);
+}
+
+button {
+    margin-top: 40px;
+    padding: 15px 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 15px;
+    background: #00ffcc;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #00ccaa;
+}
+
+.result {
+    margin-top: 30px;
+    font-size: 25px;
+}
+
+.history {
+    margin-top: 30px;
+    color: #aaa;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎁 Бустики от Салюшина</h1>
+
+<div class="container">
+
+<div id="wheel" class="wheel"></div>
+
+<button onclick="spin()">Крутить рулетку</button>
+
+<div class="result" id="result">
+Результат появится здесь
+</div>
+
+<div class="history">
+<h3>Последние крутки:</h3>
+<p id="history"></p>
+</div>
+
+</div>
+
+
+<script>
+
+let spinning = false;
+
+const prizes = [
+    "❌ Не возвращаю",
+    "❌ Возвращаю без приза",
+    "🎁 Маленький выигрыш",
+    "💎 Средний выигрыш",
+    "🔥 Редкий приз",
+    "👑 Супер приз"
+];
+
+function spin(){
+
+    if(spinning) return;
+
+    spinning = true;
+
+    let wheel = document.getElementById("wheel");
+
+    let random = Math.floor(Math.random()*360)+1440;
+
+    wheel.style.transform =
+    "rotate(" + random + "deg)";
+
+
+    setTimeout(()=>{
+
+        let chance = Math.random()*100;
+        let prize;
+
+        if(chance < 45){
+            prize = prizes[0];
+        }
+        else if(chance < 80){
+            prize = prizes[1];
+        }
+        else if(chance < 92){
+            prize = prizes[2];
+        }
+        else if(chance < 98){
+            prize = prizes[3];
+        }
+        else if(chance < 99.8){
+            prize = prizes[4];
+        }
+        else{
+            prize = prizes[5];
+        }
+
+
+        document.getElementById("result").innerHTML =
+        "Ты получил: " + prize;
+
+
+        let history =
+        document.getElementById("history");
+
+        history.innerHTML =
+        prize + "<br>" + history.innerHTML;
+
+
+        spinning=false;
+
+    },5000);
+
+}
+
+</script>
+
+</body>
+</html>
