@@ -3,67 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Бустики от Салюшина — игровая рулетка">
-<title>Бустики от Салюшина 🎰</title>
+<title>Бустики от Салюшина</title>
 
 <style>
 * {
     box-sizing: border-box;
+}
+
+html, body {
     margin: 0;
-    padding: 0;
+    min-height: 100%;
 }
 
 body {
-    min-height: 100vh;
-    overflow-x: hidden;
     font-family: Arial, Helvetica, sans-serif;
-    color: white;
     background:
-        radial-gradient(circle at 20% 20%, rgba(0,255,220,.12), transparent 30%),
-        radial-gradient(circle at 80% 80%, rgba(140,0,255,.15), transparent 35%),
-        #080914;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-        radial-gradient(circle, rgba(255,255,255,.12) 1px, transparent 1px);
-    background-size: 35px 35px;
-    opacity: .25;
+        radial-gradient(circle at 20% 10%, #182c4a 0%, transparent 30%),
+        radial-gradient(circle at 80% 80%, #321b52 0%, transparent 35%),
+        #070912;
+    color: white;
+    overflow-x: hidden;
 }
 
 header {
     text-align: center;
-    padding: 35px 15px 15px;
+    padding: 28px 15px 10px;
 }
 
 .logo {
-    font-size: clamp(28px, 6vw, 52px);
+    font-size: clamp(28px, 6vw, 48px);
     font-weight: 900;
-    letter-spacing: 1px;
     background: linear-gradient(90deg, #00ffe1, #7c5cff, #ff4fd8);
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
-    text-shadow: 0 0 30px rgba(0,255,220,.15);
 }
 
 .subtitle {
     margin-top: 8px;
-    color: #a9acc4;
-    font-size: 16px;
+    color: #aeb4ca;
 }
 
-.main {
-    width: min(1100px, 94%);
-    margin: auto;
+.layout {
+    width: min(1150px, 94%);
+    margin: 25px auto 50px;
     display: grid;
-    grid-template-columns: 1fr 330px;
+    grid-template-columns: minmax(0, 1fr) 330px;
     gap: 30px;
-    align-items: center;
-    padding: 30px 0 50px;
+    align-items: start;
 }
 
 .game {
@@ -72,37 +59,41 @@ header {
     align-items: center;
 }
 
-.wheel-wrap {
+/* =========================
+   РУЛЕТКА
+========================= */
+
+.wheel-container {
     position: relative;
-    width: min(520px, 88vw);
+    width: min(560px, 92vw);
     aspect-ratio: 1;
 }
 
 .pointer {
     position: absolute;
-    z-index: 10;
-    top: -17px;
+    z-index: 20;
+    top: -7px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 42px solid white;
+    border-left: 23px solid transparent;
+    border-right: 23px solid transparent;
+    border-top: 52px solid #ffffff;
     filter:
-        drop-shadow(0 0 5px #000)
+        drop-shadow(0 3px 4px #000)
         drop-shadow(0 0 12px rgba(255,255,255,.7));
 }
 
-.pointer::after {
+.pointer::before {
     content: "";
     position: absolute;
-    left: -9px;
-    top: -39px;
-    width: 18px;
-    height: 18px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
-    background: white;
+    background: #ff365e;
+    left: -6.5px;
+    top: -48px;
 }
 
 .wheel {
@@ -111,196 +102,272 @@ header {
     border-radius: 50%;
     position: relative;
     overflow: hidden;
-    border: 9px solid #f4f4ff;
+    border: 9px solid white;
+    background: #15182a;
     box-shadow:
-        0 0 0 5px #292b47,
-        0 0 40px rgba(0,255,220,.25),
-        0 0 100px rgba(124,92,255,.18);
-    transform: rotate(0deg);
-    transition: transform 5.8s cubic-bezier(.12,.72,.12,1);
-    will-change: transform;
+        0 0 0 5px #30334e,
+        0 0 45px rgba(0,255,220,.25),
+        0 20px 80px rgba(0,0,0,.6);
+
+    transition:
+        transform 5.8s cubic-bezier(.12,.72,.12,1);
+}
+
+/* Сектора */
+.sector {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 50%;
+    top: 0;
+    transform-origin: 0% 100%;
+    overflow: hidden;
 }
 
 /*
-    12 секторов по 30 градусов.
-    Указатель находится сверху.
+   Каждый сектор является треугольным блоком.
+   Текст внутри НЕ поворачивается.
 */
-.wheel-bg {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: conic-gradient(
-        from -15deg,
-        #25283d 0deg 30deg,
-        #151728 30deg 60deg,
-        #25283d 60deg 90deg,
-        #151728 90deg 120deg,
-        #25283d 120deg 150deg,
-        #151728 150deg 180deg,
-        #25283d 180deg 210deg,
-        #151728 210deg 240deg,
-        #25283d 240deg 270deg,
-        #151728 270deg 300deg,
-        #25283d 300deg 330deg,
-        #151728 330deg 360deg
-    );
-}
 
-.sector {
+.sector-content {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 50%;
-    height: 50%;
-    transform-origin: 0% 0%;
+    width: 190px;
+    min-height: 75px;
+    left: -95px;
+    top: 22px;
+
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: clamp(10px, 1.5vw, 15px);
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: .3px;
+
+    color: white;
+    text-shadow:
+        0 2px 3px rgba(0,0,0,.9),
+        0 0 8px rgba(0,0,0,.5);
+
     pointer-events: none;
 }
 
-.sector span {
-    width: 125px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.15;
-    font-weight: 900;
-    text-transform: uppercase;
-    transform: translateX(30px) rotate(15deg);
-    text-shadow: 0 2px 4px #000;
+/* Фоны */
+.sector:nth-child(1),
+.sector:nth-child(3),
+.sector:nth-child(5),
+.sector:nth-child(7),
+.sector:nth-child(9),
+.sector:nth-child(11) {
+    background: #252a46;
 }
 
-.s1 { transform: rotate(0deg) skewY(-60deg); }
-.s2 { transform: rotate(30deg) skewY(-60deg); }
-.s3 { transform: rotate(60deg) skewY(-60deg); }
-.s4 { transform: rotate(90deg) skewY(-60deg); }
-.s5 { transform: rotate(120deg) skewY(-60deg); }
-.s6 { transform: rotate(150deg) skewY(-60deg); }
-.s7 { transform: rotate(180deg) skewY(-60deg); }
-.s8 { transform: rotate(210deg) skewY(-60deg); }
-.s9 { transform: rotate(240deg) skewY(-60deg); }
-.s10 { transform: rotate(270deg) skewY(-60deg); }
-.s11 { transform: rotate(300deg) skewY(-60deg); }
-.s12 { transform: rotate(330deg) skewY(-60deg); }
-
-.s1 span,.s3 span,.s5 span,.s7 span,.s9 span,.s11 span {
-    color: #d7fff8;
+.sector:nth-child(2),
+.sector:nth-child(4),
+.sector:nth-child(6),
+.sector:nth-child(8),
+.sector:nth-child(10),
+.sector:nth-child(12) {
+    background: #151a31;
 }
 
-.s2 span,.s4 span,.s6 span,.s8 span,.s10 span,.s12 span {
-    color: #ffffff;
-}
+/*
+   Позиции 12 секторов.
+   Каждый сектор = 30 градусов.
+*/
+
+.s1  { transform: rotate(-15deg) skewY(-30deg); }
+.s2  { transform: rotate(15deg) skewY(-30deg); }
+.s3  { transform: rotate(45deg) skewY(-30deg); }
+.s4  { transform: rotate(75deg) skewY(-30deg); }
+.s5  { transform: rotate(105deg) skewY(-30deg); }
+.s6  { transform: rotate(135deg) skewY(-30deg); }
+.s7  { transform: rotate(165deg) skewY(-30deg); }
+.s8  { transform: rotate(195deg) skewY(-30deg); }
+.s9  { transform: rotate(225deg) skewY(-30deg); }
+.s10 { transform: rotate(255deg) skewY(-30deg); }
+.s11 { transform: rotate(285deg) skewY(-30deg); }
+.s12 { transform: rotate(315deg) skewY(-30deg); }
+
+/*
+   Отменяем поворот для содержимого.
+   JS ниже дополнительно выставляет правильный угол.
+*/
+
+.s1 .sector-content  { transform: rotate(15deg); }
+.s2 .sector-content  { transform: rotate(-15deg); }
+.s3 .sector-content  { transform: rotate(-45deg); }
+.s4 .sector-content  { transform: rotate(-75deg); }
+.s5 .sector-content  { transform: rotate(-105deg); }
+.s6 .sector-content  { transform: rotate(-135deg); }
+.s7 .sector-content  { transform: rotate(-165deg); }
+.s8 .sector-content  { transform: rotate(-195deg); }
+.s9 .sector-content  { transform: rotate(-225deg); }
+.s10 .sector-content { transform: rotate(-255deg); }
+.s11 .sector-content { transform: rotate(-285deg); }
+.s12 .sector-content { transform: rotate(-315deg); }
 
 .center {
     position: absolute;
-    z-index: 5;
-    width: 90px;
-    height: 90px;
+    z-index: 15;
+    width: 100px;
+    height: 100px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 25px;
-    background: linear-gradient(135deg, #00ffe1, #6c4cff);
-    border: 7px solid #fff;
+
+    background: linear-gradient(135deg, #00ffe1, #7255ff);
+    border: 7px solid white;
+
+    font-size: 27px;
+    font-weight: 900;
+
     box-shadow:
-        0 0 20px rgba(0,255,220,.7),
+        0 0 25px rgba(0,255,220,.7),
         inset 0 0 20px rgba(255,255,255,.2);
 }
 
-.spin-btn {
-    margin-top: 40px;
-    width: min(400px, 90%);
+/* =========================
+   КНОПКА
+========================= */
+
+.spin-button {
+    margin-top: 38px;
+    width: min(430px, 90%);
     padding: 18px 25px;
-    border: 0;
+
+    border: none;
     border-radius: 16px;
+
+    background: linear-gradient(90deg, #00ffe1, #62ffcc);
     color: #06100f;
-    background: linear-gradient(90deg, #00ffe1, #6dffce);
+
     font-size: 20px;
     font-weight: 900;
+
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,255,220,.2);
+
+    box-shadow:
+        0 10px 35px rgba(0,255,220,.25);
+
     transition: .2s;
 }
 
-.spin-btn:hover {
+.spin-button:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(0,255,220,.35);
+    box-shadow:
+        0 15px 45px rgba(0,255,220,.4);
 }
 
-.spin-btn:active {
+.spin-button:active {
     transform: scale(.98);
 }
 
-.spin-btn:disabled {
-    cursor: not-allowed;
+.spin-button:disabled {
     opacity: .55;
+    cursor: not-allowed;
     transform: none;
 }
 
+/* =========================
+   РЕЗУЛЬТАТ
+========================= */
+
 .result {
-    width: min(520px, 90%);
-    min-height: 115px;
-    margin-top: 25px;
+    width: min(560px, 92%);
+    margin-top: 24px;
     padding: 20px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,.1);
+
     border-radius: 20px;
-    background: rgba(15,17,32,.8);
-    backdrop-filter: blur(10px);
+
+    background: rgba(15,18,35,.9);
+    border: 1px solid rgba(255,255,255,.1);
+
+    text-align: center;
 }
 
 .result-title {
-    color: #8d91ad;
+    color: #898ea9;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 900;
     text-transform: uppercase;
 }
 
-.result-text {
+.result-name {
     margin-top: 8px;
-    font-size: clamp(22px, 5vw, 32px);
+    font-size: clamp(23px, 5vw, 34px);
     font-weight: 900;
 }
 
 .result-desc {
-    margin-top: 7px;
-    color: #aeb1c5;
+    margin-top: 8px;
+    color: #afb4ca;
 }
+
+.pop {
+    animation: resultPop .45s ease;
+}
+
+@keyframes resultPop {
+    0% {
+        transform: scale(.8);
+        opacity: .2;
+    }
+
+    70% {
+        transform: scale(1.04);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* =========================
+   ПАНЕЛЬ
+========================= */
 
 .panel {
     padding: 22px;
     border-radius: 22px;
-    background: rgba(17,19,38,.86);
+
+    background: rgba(15,18,35,.9);
     border: 1px solid rgba(255,255,255,.08);
-    box-shadow: 0 20px 50px rgba(0,0,0,.25);
 }
 
 .panel h2 {
-    margin-bottom: 18px;
+    margin: 0 0 15px;
     font-size: 20px;
 }
 
 .stats {
     display: grid;
-    gap: 10px;
+    gap: 9px;
     margin-bottom: 25px;
 }
 
 .stat {
     display: flex;
     justify-content: space-between;
-    padding: 13px;
-    border-radius: 12px;
+    padding: 12px;
+
+    border-radius: 11px;
     background: rgba(255,255,255,.045);
 }
 
-.stat span:last-child {
-    font-weight: 900;
+.stat-value {
     color: #00ffe1;
+    font-weight: 900;
 }
 
 .history {
@@ -311,117 +378,117 @@ header {
 .history-item {
     padding: 11px;
     margin-bottom: 7px;
+
     border-radius: 10px;
-    background: rgba(255,255,255,.04);
-    color: #ddd;
+    background: rgba(255,255,255,.045);
+
     font-size: 14px;
 }
 
 .empty {
-    color: #777b95;
+    padding: 20px;
     text-align: center;
-    padding: 20px 5px;
+    color: #737890;
 }
 
-.reset {
+.small-button {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 12px;
     padding: 11px;
-    border: 1px solid rgba(255,255,255,.1);
+
     border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.1);
+
     background: transparent;
-    color: #8d91ad;
+    color: #aeb3c7;
+
     cursor: pointer;
 }
 
-.reset:hover {
+.small-button:hover {
     background: rgba(255,255,255,.05);
     color: white;
 }
 
-.sound {
-    margin-top: 12px;
-    width: 100%;
-    padding: 11px;
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 10px;
-    background: transparent;
-    color: #bfc2d4;
-    cursor: pointer;
-}
+/* =========================
+   CONFETTI
+========================= */
 
 #confetti {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 100;
+    z-index: 999;
 }
 
-.confetti-piece {
+.confetti {
     position: fixed;
-    width: 8px;
+    width: 9px;
     height: 14px;
-    animation: fall 2.5s linear forwards;
+    animation: confettiFall 2.5s linear forwards;
 }
 
-@keyframes fall {
+@keyframes confettiFall {
     from {
-        transform: translateY(-20px) rotate(0deg);
+        transform: translateY(-30px) rotate(0);
         opacity: 1;
     }
+
     to {
-        transform: translateY(105vh) rotate(720deg);
+        transform: translateY(110vh) rotate(720deg);
         opacity: 0;
     }
 }
 
-.pop {
-    animation: pop .45s ease;
-}
-
-@keyframes pop {
-    0% { transform: scale(.75); opacity: .2; }
-    70% { transform: scale(1.04); }
-    100% { transform: scale(1); opacity: 1; }
-}
+/* =========================
+   МОБИЛЬНАЯ ВЕРСИЯ
+========================= */
 
 @media (max-width: 850px) {
-    .main {
+
+    .layout {
         grid-template-columns: 1fr;
     }
 
     .panel {
-        width: min(520px, 100%);
+        width: min(560px, 92%);
         margin: auto;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 520px) {
+
     header {
-        padding-top: 25px;
+        padding-top: 20px;
     }
 
-    .wheel-wrap {
-        width: 90vw;
-    }
-
-    .center {
-        width: 72px;
-        height: 72px;
-        font-size: 20px;
-        border-width: 5px;
-    }
-
-    .sector span {
-        width: 90px;
-        font-size: 9px;
-        transform: translateX(20px) rotate(15deg);
+    .wheel-container {
+        width: 94vw;
     }
 
     .pointer {
-        border-left-width: 14px;
-        border-right-width: 14px;
-        border-top-width: 35px;
+        border-left-width: 17px;
+        border-right-width: 17px;
+        border-top-width: 42px;
+    }
+
+    .center {
+        width: 76px;
+        height: 76px;
+        border-width: 5px;
+        font-size: 21px;
+    }
+
+    .sector-content {
+        width: 125px;
+        min-height: 60px;
+        left: -62px;
+        top: 25px;
+        font-size: 9px;
+    }
+
+    .spin-button {
+        font-size: 17px;
     }
 }
 </style>
@@ -431,137 +498,198 @@ header {
 
 <header>
     <div class="logo">🎰 БУСТИКИ ОТ САЛЮШИНА</div>
-    <div class="subtitle">Испытай удачу и крути рулетку сколько хочешь</div>
+    <div class="subtitle">
+        Испытай удачу — крути рулетку сколько хочешь
+    </div>
 </header>
 
-<main class="main">
+<div class="layout">
 
-    <section class="game">
+<section class="game">
 
-        <div class="wheel-wrap">
+<div class="wheel-container">
 
-            <div class="pointer"></div>
+    <div class="pointer"></div>
 
-            <div id="wheel" class="wheel">
+    <div id="wheel" class="wheel">
 
-                <div class="wheel-bg"></div>
+        <!-- 12 СЕКТОРОВ -->
 
-                <div class="sector s1">
-                    <span>❌<br>НЕ<br>ВОЗВРАЩАЮ</span>
-                </div>
-
-                <div class="sector s2">
-                    <span>↩️<br>ВОЗВРАЩАЮ<br>БЕЗ ПРИЗА</span>
-                </div>
-
-                <div class="sector s3">
-                    <span>❌<br>НЕ<br>ВОЗВРАЩАЮ</span>
-                </div>
-
-                <div class="sector s4">
-                    <span>↩️<br>ВОЗВРАЩАЮ<br>БЕЗ ПРИЗА</span>
-                </div>
-
-                <div class="sector s5">
-                    <span>❌<br>НЕ<br>ВОЗВРАЩАЮ</span>
-                </div>
-
-                <div class="sector s6">
-                    <span>↩️<br>ВОЗВРАЩАЮ<br>БЕЗ ПРИЗА</span>
-                </div>
-
-                <div class="sector s7">
-                    <span>❌<br>НЕ<br>ВОЗВРАЩАЮ</span>
-                </div>
-
-                <div class="sector s8">
-                    <span>↩️<br>ВОЗВРАЩАЮ<br>БЕЗ ПРИЗА</span>
-                </div>
-
-                <div class="sector s9">
-                    <span>🎁<br>МАЛЕНЬКИЙ<br>ВЫИГРЫШ</span>
-                </div>
-
-                <div class="sector s10">
-                    <span>💎<br>ХОРОШИЙ<br>ВЫИГРЫШ</span>
-                </div>
-
-                <div class="sector s11">
-                    <span>🔥<br>РЕДКИЙ<br>ПРИЗ</span>
-                </div>
-
-                <div class="sector s12">
-                    <span>👑<br>СУПЕР<br>ПРИЗ</span>
-                </div>
-
-                <div class="center">🎰</div>
-
+        <div class="sector s1">
+            <div class="sector-content">
+                <div>❌ НЕ</div>
+                <div>ВОЗВРАЩАЮ</div>
             </div>
         </div>
 
-        <button id="spinButton" class="spin-btn" onclick="spinWheel()">
-            КРУТИТЬ РУЛЕТКУ
-        </button>
-
-        <div id="result" class="result">
-            <div class="result-title">Результат</div>
-            <div class="result-text">🎰 Крути рулетку!</div>
-            <div class="result-desc">Удачи!</div>
+        <div class="sector s2">
+            <div class="sector-content">
+                <div>↩️ ВОЗВРАЩАЮ</div>
+                <div>БЕЗ ПРИЗА</div>
+            </div>
         </div>
 
-    </section>
-
-    <aside class="panel">
-
-        <h2>📊 Статистика</h2>
-
-        <div class="stats">
-
-            <div class="stat">
-                <span>Всего вращений</span>
-                <span id="total">0</span>
+        <div class="sector s3">
+            <div class="sector-content">
+                <div>❌ НЕ</div>
+                <div>ВОЗВРАЩАЮ</div>
             </div>
-
-            <div class="stat">
-                <span>❌ Не возвращаю</span>
-                <span id="noReturn">0</span>
-            </div>
-
-            <div class="stat">
-                <span>↩️ Возвращаю</span>
-                <span id="returnNoPrize">0</span>
-            </div>
-
-            <div class="stat">
-                <span>🎁 Выигрышей</span>
-                <span id="wins">0</span>
-            </div>
-
         </div>
 
-        <h2>🕘 История</h2>
-
-        <div id="history" class="history">
-            <div class="empty">Пока нет вращений</div>
+        <div class="sector s4">
+            <div class="sector-content">
+                <div>↩️ ВОЗВРАЩАЮ</div>
+                <div>БЕЗ ПРИЗА</div>
+            </div>
         </div>
 
-        <button class="sound" id="soundButton" onclick="toggleSound()">
-            🔊 Звук: ВКЛ
-        </button>
+        <div class="sector s5">
+            <div class="sector-content">
+                <div>❌ НЕ</div>
+                <div>ВОЗВРАЩАЮ</div>
+            </div>
+        </div>
 
-        <button class="reset" onclick="resetStats()">
-            Сбросить статистику
-        </button>
+        <div class="sector s6">
+            <div class="sector-content">
+                <div>↩️ ВОЗВРАЩАЮ</div>
+                <div>БЕЗ ПРИЗА</div>
+            </div>
+        </div>
 
-    </aside>
+        <div class="sector s7">
+            <div class="sector-content">
+                <div>❌ НЕ</div>
+                <div>ВОЗВРАЩАЮ</div>
+            </div>
+        </div>
 
-</main>
+        <div class="sector s8">
+            <div class="sector-content">
+                <div>↩️ ВОЗВРАЩАЮ</div>
+                <div>БЕЗ ПРИЗА</div>
+            </div>
+        </div>
+
+        <div class="sector s9">
+            <div class="sector-content">
+                <div>🎁 МАЛЕНЬКИЙ</div>
+                <div>ВЫИГРЫШ</div>
+            </div>
+        </div>
+
+        <div class="sector s10">
+            <div class="sector-content">
+                <div>💎 ХОРОШИЙ</div>
+                <div>ВЫИГРЫШ</div>
+            </div>
+        </div>
+
+        <div class="sector s11">
+            <div class="sector-content">
+                <div>🔥 РЕДКИЙ</div>
+                <div>ПРИЗ</div>
+            </div>
+        </div>
+
+        <div class="sector s12">
+            <div class="sector-content">
+                <div>👑 СУПЕР</div>
+                <div>ПРИЗ</div>
+            </div>
+        </div>
+
+        <div class="center">🎰</div>
+
+    </div>
+</div>
+
+<button
+    id="spinButton"
+    class="spin-button"
+    onclick="spinWheel()">
+    КРУТИТЬ РУЛЕТКУ
+</button>
+
+<div id="result" class="result">
+
+    <div class="result-title">
+        РЕЗУЛЬТАТ
+    </div>
+
+    <div class="result-name">
+        🎰 Крути рулетку!
+    </div>
+
+    <div class="result-desc">
+        Удачи!
+    </div>
+
+</div>
+
+</section>
+
+
+<aside class="panel">
+
+    <h2>📊 Статистика</h2>
+
+    <div class="stats">
+
+        <div class="stat">
+            <span>Всего вращений</span>
+            <span class="stat-value" id="total">0</span>
+        </div>
+
+        <div class="stat">
+            <span>❌ Не возвращаю</span>
+            <span class="stat-value" id="noReturn">0</span>
+        </div>
+
+        <div class="stat">
+            <span>↩️ Возвращаю</span>
+            <span class="stat-value" id="returns">0</span>
+        </div>
+
+        <div class="stat">
+            <span>🎁 Выигрышей</span>
+            <span class="stat-value" id="wins">0</span>
+        </div>
+
+    </div>
+
+    <h2>🕘 Последние вращения</h2>
+
+    <div id="history" class="history">
+        <div class="empty">
+            Пока нет вращений
+        </div>
+    </div>
+
+    <button
+        class="small-button"
+        id="soundButton"
+        onclick="toggleSound()">
+        🔊 Звук: ВКЛ
+    </button>
+
+    <button
+        class="small-button"
+        onclick="resetStats()">
+        🗑️ Сбросить статистику
+    </button>
+
+</aside>
+
+</div>
 
 <div id="confetti"></div>
 
+
 <script>
+
 /* ==========================================
-   НАСТРОЙКИ
+   ДАННЫЕ РУЛЕТКИ
 ========================================== */
 
 const sectors = [
@@ -579,7 +707,49 @@ const sectors = [
     "СУПЕР ПРИЗ"
 ];
 
-const sectorAngle = 360 / sectors.length;
+const descriptions = {
+
+    "НЕ ВОЗВРАЩАЮ": {
+        icon: "❌",
+        text: "Сегодня без возврата 😈",
+        type: "lose"
+    },
+
+    "ВОЗВРАЩАЮ БЕЗ ПРИЗА": {
+        icon: "↩️",
+        text: "Возвращаю, но без приза 😅",
+        type: "return"
+    },
+
+    "МАЛЕНЬКИЙ ВЫИГРЫШ": {
+        icon: "🎁",
+        text: "Неплохо! Маленький выигрыш!",
+        type: "win"
+    },
+
+    "ХОРОШИЙ ВЫИГРЫШ": {
+        icon: "💎",
+        text: "Поздравляем! Хороший выигрыш!",
+        type: "win"
+    },
+
+    "РЕДКИЙ ПРИЗ": {
+        icon: "🔥",
+        text: "ОГО! Редкий приз!",
+        type: "rare"
+    },
+
+    "СУПЕР ПРИЗ": {
+        icon: "👑",
+        text: "ДЖЕКПОТ! Супер приз!",
+        type: "jackpot"
+    }
+};
+
+
+/* ==========================================
+   ПЕРЕМЕННЫЕ
+========================================== */
 
 let currentRotation = 0;
 let isSpinning = false;
@@ -588,7 +758,7 @@ let soundEnabled = true;
 let stats = {
     total: 0,
     noReturn: 0,
-    returnNoPrize: 0,
+    returns: 0,
     wins: 0
 };
 
@@ -596,50 +766,7 @@ let history = [];
 
 
 /* ==========================================
-   РЕЗУЛЬТАТЫ
-========================================== */
-
-const resultData = {
-    "НЕ ВОЗВРАЩАЮ": {
-        icon: "❌",
-        description: "Сегодня без возврата 😈",
-        type: "lose"
-    },
-
-    "ВОЗВРАЩАЮ БЕЗ ПРИЗА": {
-        icon: "↩️",
-        description: "Возвращаю, но без приза 😅",
-        type: "return"
-    },
-
-    "МАЛЕНЬКИЙ ВЫИГРЫШ": {
-        icon: "🎁",
-        description: "Неплохо! Маленький выигрыш 🎁",
-        type: "win"
-    },
-
-    "ХОРОШИЙ ВЫИГРЫШ": {
-        icon: "💎",
-        description: "Поздравляем! Хороший выигрыш 💎",
-        type: "win"
-    },
-
-    "РЕДКИЙ ПРИЗ": {
-        icon: "🔥",
-        description: "ОГО! Редкий приз 🔥",
-        type: "rare"
-    },
-
-    "СУПЕР ПРИЗ": {
-        icon: "👑",
-        description: "ДЖЕКПОТ! 👑",
-        type: "jackpot"
-    }
-};
-
-
-/* ==========================================
-   ВЗВЕШЕННЫЙ RANDOM
+   ШАНСЫ
 ========================================== */
 
 function getRandomResult() {
@@ -671,73 +798,64 @@ function getRandomResult() {
 
 
 /* ==========================================
-   ВЫБОР СЕКТОРА
+   НАЙТИ СЕКТОР
 ========================================== */
 
-function getSectorForResult(result) {
+function getSectorIndex(result) {
 
-    const available = [];
+    const indexes = [];
 
-    sectors.forEach((value, index) => {
-        if (value === result) {
-            available.push(index);
+    sectors.forEach((sector, index) => {
+
+        if (sector === result) {
+            indexes.push(index);
         }
+
     });
 
-    return available[
-        Math.floor(Math.random() * available.length)
+    return indexes[
+        Math.floor(Math.random() * indexes.length)
     ];
 }
 
 
 /* ==========================================
-   РАСЧЁТ ВРАЩЕНИЯ
+   РАСЧЁТ ТОЧНОГО ВРАЩЕНИЯ
 ========================================== */
 
-function calculateRotation(sectorIndex) {
+function calculateRotation(index) {
+
+    const sectorSize = 360 / sectors.length;
 
     /*
-        Сектор имеет центр:
+       Сектора расположены от -15 градусов.
+       Поэтому центр сектора находится:
 
-        index * 30 + 15
-
-        Нам нужно поставить центр выбранного
-        сектора под верхний указатель.
-
-        Поэтому вращаем колесо на противоположный угол.
+       index * 30 градусов
     */
 
-    const sectorCenter =
-        sectorIndex * sectorAngle + sectorAngle / 2;
+    const targetAngle =
+        index * sectorSize;
 
-    const desiredAngle =
-        360 - sectorCenter;
-
-    const currentNormalized =
+    const current =
         ((currentRotation % 360) + 360) % 360;
 
     let difference =
-        desiredAngle - currentNormalized;
+        -targetAngle - current;
 
-    if (difference < 0) {
+    while (difference < 0) {
         difference += 360;
     }
 
-    /*
-        Добавляем 5–7 полных оборотов.
-    */
-
     const extraSpins =
-        5 + Math.floor(Math.random() * 3);
+        (5 + Math.floor(Math.random() * 3)) * 360;
 
-    return currentRotation +
-        extraSpins * 360 +
-        difference;
+    return currentRotation + extraSpins + difference;
 }
 
 
 /* ==========================================
-   ВРАЩЕНИЕ
+   КРУТИТЬ
 ========================================== */
 
 function spinWheel() {
@@ -749,41 +867,35 @@ function spinWheel() {
     const button =
         document.getElementById("spinButton");
 
-    button.disabled = true;
-    button.textContent = "ВРАЩЕНИЕ...";
-
     const wheel =
         document.getElementById("wheel");
 
+    button.disabled = true;
+    button.textContent = "ВРАЩЕНИЕ...";
+
     /*
-        1. Сначала выбираем результат.
+       СНАЧАЛА выбираем результат.
     */
 
-    const result = getRandomResult();
+    const result =
+        getRandomResult();
 
     /*
-        2. Находим подходящий сектор.
+       Потом выбираем конкретный сектор.
     */
 
     const sectorIndex =
-        getSectorForResult(result);
+        getSectorIndex(result);
 
     /*
-        3. Рассчитываем точное вращение.
+       Потом вычисляем вращение.
     */
 
     const finalRotation =
         calculateRotation(sectorIndex);
 
-    /*
-        4. Запоминаем угол.
-    */
-
-    currentRotation = finalRotation;
-
-    /*
-        5. Вращаем колесо.
-    */
+    currentRotation =
+        finalRotation;
 
     wheel.style.transform =
         `rotate(${finalRotation}deg)`;
@@ -791,15 +903,17 @@ function spinWheel() {
     playSpinSound();
 
     /*
-        6. После окончания анимации
-           показываем результат.
+       Ждём окончания CSS-анимации.
     */
 
     setTimeout(() => {
 
         showResult(result);
+
         updateStats(result);
+
         addHistory(result);
+
         saveData();
 
         button.disabled = false;
@@ -807,19 +921,17 @@ function spinWheel() {
 
         isSpinning = false;
 
-        /*
-            Эффекты только для выигрышей.
-        */
-
-        const type = resultData[result].type;
+        const type =
+            descriptions[result].type;
 
         if (
             type === "win" ||
             type === "rare" ||
             type === "jackpot"
         ) {
+
             createConfetti(
-                type === "jackpot" ? 100 : 45
+                type === "jackpot" ? 120 : 50
             );
 
             playWinSound();
@@ -830,12 +942,13 @@ function spinWheel() {
 
 
 /* ==========================================
-   ПОКАЗ РЕЗУЛЬТАТА
+   РЕЗУЛЬТАТ
 ========================================== */
 
 function showResult(result) {
 
-    const data = resultData[result];
+    const data =
+        descriptions[result];
 
     const box =
         document.getElementById("result");
@@ -847,16 +960,17 @@ function showResult(result) {
     box.classList.add("pop");
 
     box.innerHTML = `
+
         <div class="result-title">
             ТЕБЕ ВЫПАЛО
         </div>
 
-        <div class="result-text">
+        <div class="result-name">
             ${data.icon} ${result}
         </div>
 
         <div class="result-desc">
-            ${data.description}
+            ${data.text}
         </div>
     `;
 }
@@ -871,14 +985,17 @@ function updateStats(result) {
     stats.total++;
 
     if (result === "НЕ ВОЗВРАЩАЮ") {
+
         stats.noReturn++;
-    }
 
-    else if (result === "ВОЗВРАЩАЮ БЕЗ ПРИЗА") {
-        stats.returnNoPrize++;
-    }
+    } else if (
+        result === "ВОЗВРАЩАЮ БЕЗ ПРИЗА"
+    ) {
 
-    else {
+        stats.returns++;
+
+    } else {
+
         stats.wins++;
     }
 
@@ -894,8 +1011,8 @@ function renderStats() {
     document.getElementById("noReturn").textContent =
         stats.noReturn;
 
-    document.getElementById("returnNoPrize").textContent =
-        stats.returnNoPrize;
+    document.getElementById("returns").textContent =
+        stats.returns;
 
     document.getElementById("wins").textContent =
         stats.wins;
@@ -910,10 +1027,6 @@ function addHistory(result) {
 
     history.unshift(result);
 
-    /*
-        Храним максимум 10 результатов.
-    */
-
     if (history.length > 10) {
         history.pop();
     }
@@ -924,38 +1037,37 @@ function addHistory(result) {
 
 function renderHistory() {
 
-    const container =
+    const box =
         document.getElementById("history");
 
     if (history.length === 0) {
 
-        container.innerHTML =
+        box.innerHTML =
             `<div class="empty">Пока нет вращений</div>`;
 
         return;
     }
 
-    container.innerHTML = "";
+    box.innerHTML = "";
 
     history.forEach((result, index) => {
-
-        const data = resultData[result];
 
         const item =
             document.createElement("div");
 
-        item.className = "history-item";
+        item.className =
+            "history-item";
 
         item.textContent =
-            `${index + 1}. ${data.icon} ${result}`;
+            `${index + 1}. ${descriptions[result].icon} ${result}`;
 
-        container.appendChild(item);
+        box.appendChild(item);
     });
 }
 
 
 /* ==========================================
-   LOCAL STORAGE
+   СОХРАНЕНИЕ
 ========================================== */
 
 function saveData() {
@@ -1005,14 +1117,16 @@ function loadData() {
 
     } catch (error) {
 
-        console.log(
-            "Не удалось загрузить сохранение"
-        );
+        console.log(error);
     }
 
     renderStats();
     renderHistory();
-    updateSoundButton();
+
+    document.getElementById("soundButton").textContent =
+        soundEnabled
+            ? "🔊 Звук: ВКЛ"
+            : "🔇 Звук: ВЫКЛ";
 }
 
 
@@ -1022,23 +1136,28 @@ function loadData() {
 
 function resetStats() {
 
-    const answer = confirm(
-        "Точно сбросить всю статистику?"
-    );
-
-    if (!answer) return;
+    if (!confirm(
+        "Точно сбросить статистику?"
+    )) {
+        return;
+    }
 
     stats = {
         total: 0,
         noReturn: 0,
-        returnNoPrize: 0,
+        returns: 0,
         wins: 0
     };
 
     history = [];
 
-    localStorage.removeItem("boostiki_stats");
-    localStorage.removeItem("boostiki_history");
+    localStorage.removeItem(
+        "boostiki_stats"
+    );
+
+    localStorage.removeItem(
+        "boostiki_history"
+    );
 
     renderStats();
     renderHistory();
@@ -1052,7 +1171,7 @@ function resetStats() {
 let audioContext = null;
 
 
-function getAudioContext() {
+function getAudio() {
 
     if (!audioContext) {
 
@@ -1067,46 +1186,48 @@ function getAudioContext() {
 }
 
 
-function playTone(
+function tone(
     frequency,
     duration,
-    volume = 0.04
+    volume
 ) {
 
     if (!soundEnabled) return;
 
     try {
 
-        const ctx = getAudioContext();
+        const audio =
+            getAudio();
 
         const oscillator =
-            ctx.createOscillator();
+            audio.createOscillator();
 
         const gain =
-            ctx.createGain();
+            audio.createGain();
 
         oscillator.frequency.value =
             frequency;
 
-        oscillator.type = "sine";
+        oscillator.type =
+            "sine";
 
         gain.gain.setValueAtTime(
             volume,
-            ctx.currentTime
+            audio.currentTime
         );
 
         gain.gain.exponentialRampToValueAtTime(
             0.001,
-            ctx.currentTime + duration
+            audio.currentTime + duration
         );
 
         oscillator.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(audio.destination);
 
         oscillator.start();
 
         oscillator.stop(
-            ctx.currentTime + duration
+            audio.currentTime + duration
         );
 
     } catch (e) {}
@@ -1117,7 +1238,7 @@ function playSpinSound() {
 
     if (!soundEnabled) return;
 
-    let count = 0;
+    let ticks = 0;
 
     const interval =
         setInterval(() => {
@@ -1128,15 +1249,15 @@ function playSpinSound() {
                 return;
             }
 
-            playTone(
-                180 + count * 8,
-                .05,
+            tone(
+                180 + ticks * 5,
+                .04,
                 .025
             );
 
-            count++;
+            ticks++;
 
-        }, 120);
+        }, 130);
 }
 
 
@@ -1144,39 +1265,33 @@ function playWinSound() {
 
     if (!soundEnabled) return;
 
-    playTone(523, .12, .05);
+    tone(523, .12, .05);
 
     setTimeout(
-        () => playTone(659, .12, .05),
-        120
+        () => tone(659, .12, .05),
+        130
     );
 
     setTimeout(
-        () => playTone(784, .25, .06),
-        240
+        () => tone(784, .25, .06),
+        260
     );
 }
 
 
 function toggleSound() {
 
-    soundEnabled = !soundEnabled;
+    soundEnabled =
+        !soundEnabled;
 
-    updateSoundButton();
-
-    saveData();
-}
-
-
-function updateSoundButton() {
-
-    const button =
-        document.getElementById("soundButton");
-
-    button.textContent =
+    document.getElementById(
+        "soundButton"
+    ).textContent =
         soundEnabled
             ? "🔊 Звук: ВКЛ"
             : "🔇 Звук: ВЫКЛ";
+
+    saveData();
 }
 
 
@@ -1184,9 +1299,9 @@ function updateSoundButton() {
    КОНФЕТТИ
 ========================================== */
 
-function createConfetti(amount = 50) {
+function createConfetti(amount) {
 
-    const container =
+    const box =
         document.getElementById("confetti");
 
     for (let i = 0; i < amount; i++) {
@@ -1195,24 +1310,18 @@ function createConfetti(amount = 50) {
             document.createElement("div");
 
         piece.className =
-            "confetti-piece";
+            "confetti";
 
         piece.style.left =
             Math.random() * 100 + "vw";
 
-        piece.style.top =
-            (-Math.random() * 30) + "px";
-
         piece.style.background =
-            `hsl(${Math.random() * 360}, 90%, 60%)`;
+            `hsl(${Math.random() * 360},90%,60%)`;
 
         piece.style.animationDuration =
-            (1.5 + Math.random() * 2) + "s";
+            1.5 + Math.random() * 2 + "s";
 
-        piece.style.transform =
-            `rotate(${Math.random() * 360}deg)`;
-
-        container.appendChild(piece);
+        box.appendChild(piece);
 
         setTimeout(() => {
             piece.remove();
